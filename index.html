@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danai Mlambo — Software Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12141c;
+    --bg-alt:#171a24;
+    --surface:#1b1e2a;
+    --surface-hover:#20242f;
+    --border:#2a2e3d;
+    --text:#ece9e2;
+    --text-dim:#a3a9bc;
+    --text-faint:#6b7086;
+    --amber:#e8a33d;
+    --teal:#5fb4a2;
+    --diff-add:#5fb4a2;
+    --diff-meta:#6b7086;
+    --radius:10px;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  ::selection{background:var(--amber);color:#12141c;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- Layout helpers ---------- */
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;}
+  section{padding:100px 0;border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--amber);
+    letter-spacing:0.02em;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:16px;height:1px;
+    background:var(--amber);
+    display:inline-block;
+  }
+
+  h2{
+    font-family:var(--font-display);
+    font-size:clamp(28px,4vw,38px);
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin-bottom:44px;
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;
+    z-index:50;
+    background:rgba(18,20,28,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:60px;
+  }
+  .brand{
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--text-dim);
+  }
+  .brand span{color:var(--amber);}
+  .nav-links{
+    display:flex;gap:28px;
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-dim);
+  }
+  .nav-links a{transition:color .15s ease;}
+  .nav-links a:hover{color:var(--amber);}
+  .nav-links a:focus-visible, a:focus-visible, button:focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+    border-radius:3px;
+  }
+  @media (max-width:640px){
+    .nav-links{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+    padding-top:60px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.3fr 0.9fr;
+    gap:56px;
+    align-items:center;
+  }
+  @media (max-width:820px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-photo{order:-1;max-width:280px;margin:0 auto;}
+  }
+  .hero-photo .frame{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .hero-photo .frame-head{
+    padding:10px 14px;
+    border-bottom:1px solid var(--border);
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .hero-photo .frame-head .dots{display:flex;gap:5px;}
+  .hero-photo .frame-head .dots span{width:7px;height:7px;border-radius:50%;background:var(--border);}
+  .hero-photo img{
+    display:block;
+    width:100%;
+    height:auto;
+    filter:grayscale(1) contrast(1.05);
+    aspect-ratio:4/4.5;
+    object-fit:cover;
+    object-position:center 20%;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.25;
+    mask-image:radial-gradient(ellipse 60% 50% at 50% 40%, black 10%, transparent 70%);
+  }
+  .hero-inner{position:relative;z-index:1;}
+  .prompt-line{
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--text-faint);
+    margin-bottom:22px;
+  }
+  .prompt-line .p1{color:var(--teal);}
+  .prompt-line .p2{color:var(--amber);}
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(42px,8vw,76px);
+    letter-spacing:-0.02em;
+    line-height:1.02;
+    margin-bottom:20px;
+  }
+  .hero h1 .cursor{
+    display:inline-block;
+    width:0.5ch;
+    background:var(--amber);
+    margin-left:4px;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .hero .role{
+    font-family:var(--font-mono);
+    font-size:clamp(15px,2vw,18px);
+    color:var(--amber);
+    margin-bottom:24px;
+  }
+  .hero p.lede{
+    max-width:560px;
+    font-size:17px;
+    color:var(--text-dim);
+    margin-bottom:36px;
+  }
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--font-mono);
+    font-size:13px;
+    padding:12px 20px;
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    transition:all .15s ease;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary{
+    background:var(--amber);
+    color:#15140e;
+    border-color:var(--amber);
+    font-weight:600;
+  }
+  .btn-primary:hover{background:#f2b455;}
+  .btn-ghost{color:var(--text-dim);}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal);}
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:48px;
+    align-items:start;
+  }
+  @media (max-width:760px){
+    .about-grid{grid-template-columns:1fr;}
+  }
+  .about-text p{color:var(--text-dim);margin-bottom:16px;font-size:16px;}
+  .about-text strong{color:var(--text);font-weight:600;}
+
+  .status-panel{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .status-panel .panel-head{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+    padding:12px 16px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .status-panel .panel-head .dots{display:flex;gap:5px;}
+  .status-panel .panel-head .dots span{width:8px;height:8px;border-radius:50%;background:var(--border);}
+  .status-panel ul{list-style:none;padding:14px 16px;}
+  .status-panel li{
+    font-family:var(--font-mono);
+    font-size:13.5px;
+    color:var(--text-dim);
+    padding:9px 0;
+    border-bottom:1px dashed var(--border);
+    display:flex;
+    gap:10px;
+  }
+  .status-panel li:last-child{border-bottom:none;}
+  .status-panel li .tag{color:var(--amber);flex-shrink:0;}
+
+  /* ---------- Stack ---------- */
+  .stack-file{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    font-family:var(--font-mono);
+    font-size:14px;
+    overflow:hidden;
+  }
+  .stack-file .file-head{
+    padding:12px 18px;
+    border-bottom:1px solid var(--border);
+    color:var(--text-faint);
+    font-size:12.5px;
+  }
+  .stack-body{padding:20px 24px;}
+  .stack-row{margin-bottom:6px;color:var(--text-dim);}
+  .stack-key{color:var(--teal);}
+  .stack-punc{color:var(--text-faint);}
+  .stack-arr{padding-left:20px;}
+  .stack-item{color:var(--text);}
+  .stack-item .comment{color:var(--text-faint);}
+
+  /* ---------- Projects (git log) ---------- */
+  .commit{
+    display:grid;
+    grid-template-columns:110px 1fr;
+    gap:24px;
+    padding:28px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .commit:first-child{padding-top:0;}
+  .commit:last-child{border-bottom:none;padding-bottom:0;}
+  @media (max-width:640px){
+    .commit{grid-template-columns:1fr;gap:10px;}
+  }
+  .commit-hash{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--teal);
+    padding-top:2px;
+  }
+  .commit-hash .line{
+    display:block;
+    width:1px;
+    height:calc(100% - 20px);
+    background:var(--border);
+    margin:10px auto 0;
+  }
+  @media (max-width:640px){ .commit-hash .line{display:none;} }
+  .commit-title{
+    font-family:var(--font-display);
+    font-size:20px;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .commit-desc{color:var(--text-dim);font-size:15px;margin-bottom:14px;max-width:560px;}
+  .commit-diff{
+    background:var(--bg-alt);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px 16px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    margin-bottom:14px;
+    display:inline-flex;
+    flex-wrap:wrap;
+    gap:6px 16px;
+  }
+  .commit-diff span{color:var(--diff-add);}
+  .commit-diff span::before{content:"+ ";}
+  .commit-link{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--amber);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition:gap .15s ease;
+  }
+  .commit-link:hover{gap:10px;}
+
+  /* ---------- Contact ---------- */
+  .contact-panel{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:40px;
+  }
+  @media (max-width:640px){.contact-panel{padding:28px 20px;}}
+  .contact-panel .eyebrow{margin-bottom:20px;}
+  .contact-panel h2{margin-bottom:16px;}
+  .contact-panel p{color:var(--text-dim);max-width:480px;margin-bottom:32px;font-size:16px;}
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .contact-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 0;
+    border-top:1px solid var(--border);
+    font-family:var(--font-mono);
+    font-size:14px;
+    transition:padding-left .15s ease;
+  }
+  .contact-row:hover{padding-left:8px;color:var(--amber);}
+  .contact-row .label{color:var(--text-faint);}
+  .contact-links .contact-row:last-child{border-bottom:1px solid var(--border);}
+
+  footer{
+    padding:32px 0;
+    text-align:center;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand">danai<span>@</span>portfolio<span>:~$</span></div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#stack">stack</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-grid">
+        <div>
+          <div class="prompt-line"><span class="p1">danai@dev</span>:<span class="p2">~</span>$ whoami</div>
+          <h1>Danai Mlambo<span class="cursor">&nbsp;</span></h1>
+          <div class="role">Software Development &amp; IT Student</div>
+          <p class="lede">I build scalable web apps and system management tools — and spend most of my time either debugging code, watching anime, or fighting off zombies (in that order, usually).</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#projects">View projects →</a>
+            <a class="btn btn-ghost" href="#contact">Get in touch</a>
+          </div>
+        </div>
+        <div class="hero-photo reveal in">
+          <div class="frame">
+            <div class="frame-head">
+              <div class="dots"><span></span><span></span><span></span></div>
+              profile.jpg
+            </div>
+            <img src="profile.jpg" alt="Danai Mlambo">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="eyebrow">01 / about</div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>I'm a <strong>Software Development &amp; IT student</strong> with a growing focus on building web applications and system management solutions that hold up under real use — not just demos.</p>
+          <p>Most of my work lives at the intersection of <strong>web development, databases, and version control</strong> — I like understanding how a system is built end to end, not just the part that's visible on screen.</p>
+          <p>Outside of coursework, I contribute to and tinker with small tools I actually use myself — a budget tracker, a password security checker, things that solve a problem I ran into.</p>
+        </div>
+        <div class="status-panel reveal">
+          <div class="panel-head">
+            <div class="dots"><span></span><span></span><span></span></div>
+            status.log
+          </div>
+          <ul>
+            <li><span class="tag">learning</span> Java, networking &amp; software project management</li>
+            <li><span class="tag">collaborating</span> looking to work on open-source dev tools</li>
+            <li><span class="tag">need help</span> OOP in Java &amp; software testing</li>
+            <li><span class="tag">ask me</span> PHP, JavaScript, Git/GitHub, databases</li>
+            <li><span class="tag">pronouns</span> him</li>
+            <li><span class="tag">fun fact</span> debugging by day, fighting zombies by night</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="wrap">
+      <div class="eyebrow">02 / stack</div>
+      <h2>What I work with</h2>
+      <div class="stack-file reveal">
+        <div class="file-head">stack.json</div>
+        <div class="stack-body">
+          <div class="stack-row"><span class="stack-key">"languages"</span><span class="stack-punc">:</span> [</div>
+          <div class="stack-arr">
+            <div class="stack-row"><span class="stack-item">"PHP"</span>,</div>
+            <div class="stack-row"><span class="stack-item">"JavaScript"</span>,</div>
+            <div class="stack-row"><span class="stack-item">"Python"</span>,</div>
+            <div class="stack-row"><span class="stack-item">"Java"</span> <span class="comment">// currently learning</span></div>
+          </div>
+          <div class="stack-row">],</div>
+          <div class="stack-row"><span class="stack-key">"tools"</span><span class="stack-punc">:</span> [</div>
+          <div class="stack-arr">
+            <div class="stack-row"><span class="stack-item">"Git"</span>, <span class="stack-item">"GitHub"</span>,</div>
+            <div class="stack-row"><span class="stack-item">"SQL / database management"</span></div>
+          </div>
+          <div class="stack-row">],</div>
+          <div class="stack-row"><span class="stack-key">"currentlyLearning"</span><span class="stack-punc">:</span> [</div>
+          <div class="stack-arr">
+            <div class="stack-row"><span class="stack-item">"Networking"</span>, <span class="stack-item">"Software project management"</span></div>
+          </div>
+          <div class="stack-row">]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="eyebrow">03 / projects</div>
+      <h2>Recent commits</h2>
+
+      <div class="commit reveal">
+        <div class="commit-hash">a3f9c2e<span class="line"></span></div>
+        <div>
+          <div class="commit-title">PyPassGuard</div>
+          <p class="commit-desc">A command-line password security tool — checks password strength, generates strong passwords, and saves password history locally.</p>
+          <div class="commit-diff">
+            <span>Python</span><span>Security</span><span>CLI</span>
+          </div>
+          <br>
+          <a class="commit-link" href="https://github.com/Danai-Mlambo/PyPassGuard" target="_blank" rel="noopener">View repo →</a>
+        </div>
+      </div>
+
+      <div class="commit reveal">
+        <div class="commit-hash">7c1e88b<span class="line"></span></div>
+        <div>
+          <div class="commit-title">Student Grade Calculator</div>
+          <p class="commit-desc">A dynamic web app that lets a logged-in user calculate a student's grade based on marks entered across four subjects.</p>
+          <div class="commit-diff">
+            <span>PHP</span><span>Web App</span><span>Auth</span>
+          </div>
+          <br>
+          <a class="commit-link" href="https://github.com/Danai-Mlambo/student-grade-calculator" target="_blank" rel="noopener">View repo →</a>
+        </div>
+      </div>
+
+      <div class="commit reveal">
+        <div class="commit-hash">e02d4f1</div>
+        <div>
+          <div class="commit-title">Budget Tracker</div>
+          <p class="commit-desc">A command-line budget tracking app — tracks expenses and meals, generates reports, and exports data to CSV for analysis in Excel.</p>
+          <div class="commit-diff">
+            <span>Python</span><span>SQLite</span><span>CLI</span>
+          </div>
+          <br>
+          <a class="commit-link" href="https://github.com/Danai-Mlambo/budget-tracker" target="_blank" rel="noopener">View repo →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="contact-panel reveal">
+        <div class="eyebrow">04 / contact</div>
+        <h2>Let's build something</h2>
+        <p>Open to collaborating on open-source dev tools, internships, or just talking shop about Git workflows and anime. Reach out through any of these:</p>
+        <div class="contact-links">
+          <a class="contact-row" href="mailto:h250252f@hit.ac.zw">
+            <span class="label">email</span>
+            <span>h250252f@hit.ac.zw</span>
+          </a>
+          <a class="contact-row" href="https://github.com/Danai-Mlambo" target="_blank" rel="noopener">
+            <span class="label">github</span>
+            <span>github.com/Danai-Mlambo</span>
+          </a>
+          <a class="contact-row" href="https://www.linkedin.com/in/danai-mlambo-0677002b0" target="_blank" rel="noopener">
+            <span class="label">linkedin</span>
+            <span>in/danai-mlambo</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  built by Danai Mlambo — © <span id="year"></span>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
